@@ -102,19 +102,20 @@ You may want to directly provide your API KEYS as environment variables and keep
 You can also set the following environment variables to customize the image generation provider and API keys:
 
 - **DISABLE_IMAGE_GENERATION**: If **true**, Image Generation will be disabled for slides.
-- **IMAGE_PROVIDER=[pexels/pixabay/gemini_flash/dall-e-3]**: Select the image provider of your choice.
+- **IMAGE_PROVIDER=[pexels/pixabay/gemini_flash/dall-e-3/automatic1111]**: Select the image provider of your choice.
   - Required if **DISABLE_IMAGE_GENERATION** is not set to **true**.
   - Defaults to **dall-e-3** for OpenAI models, **gemini_flash** for Google models if not set.
 - **PEXELS_API_KEY=[Your Pexels API Key]**: Required if using **pexels** as the image provider.
 - **PIXABAY_API_KEY=[Your Pixabay API Key]**: Required if using **pixabay** as the image provider.
 - **GOOGLE_API_KEY=[Your Google API Key]**: Required if using **gemini_flash** as the image provider.
 - **OPENAI_API_KEY=[Your OpenAI API Key]**: Required if using **dall-e-3** as the image provider.
+- **AUTOMATIC1111_URL=[Your AUTOMATIC1111 URL]**: Required if using **automatic1111** as the image provider. Defaults to `http://127.0.0.1:7860`.
 
 You can disable anonymous telemetry using the following environment variable:
 
 - **DISABLE_ANONYMOUS_TELEMETRY=[true/false]**: Set this to **true** to disable anonymous telemetry.
 
-> **Note:** You can freely choose both the LLM (text generation) and the image provider. Supported image providers: **pexels**, **pixabay**, **gemini_flash** (Google), and **dall-e-3** (OpenAI).
+> **Note:** You can freely choose both the LLM (text generation) and the image provider. Supported image providers: **pexels**, **pixabay**, **gemini_flash** (Google), **dall-e-3** (OpenAI), and **automatic1111** (Stable Diffusion WebUI).
 
 ### Using OpenAI
 

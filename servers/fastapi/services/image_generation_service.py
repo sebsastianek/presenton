@@ -15,7 +15,10 @@ from utils.image_provider import (
     is_pixabay_selected,
     is_gemini_flash_selected,
     is_dalle3_selected,
+    is_automatic1111_selected,
 )
+from utils.get_env import get_automatic1111_url_env
+import base64
 import uuid
 
 
@@ -37,6 +40,8 @@ class ImageGenerationService:
             return self.generate_image_google
         elif is_dalle3_selected():
             return self.generate_image_openai
+        elif is_automatic1111_selected():
+            return self.generate_image_automatic1111
         return None
 
     def is_stock_provider_selected(self):
@@ -137,3 +142,41 @@ class ImageGenerationService:
             data = await response.json()
             image_url = data["hits"][0]["largeImageURL"]
             return image_url
+
+    async def generate_image_automatic1111(
+        self, prompt: str, output_directory: str
+    ) -> str:
+        """
+        Generate an image using AUTOMATIC1111/Stable Diffusion WebUI API.
+        """
+        base_url = get_automatic1111_url_env()
+        payload = {
+            "prompt": prompt,
+            "steps": 20,
+            "width": 1024,
+            "height": 1024,
+            "cfg_scale": 7,
+            "sampler_name": "Euler a",
+        }
+
+        async with aiohttp.ClientSession(trust_env=True) as session:
+            response = await session.post(
+                f"{base_url}/sdapi/v1/txt2img",
+                json=payload,
+            )
+            if response.status != 200:
+                error_text = await response.text()
+                raise Exception(
+                    f"AUTOMATIC1111 API error: {response.status} - {error_text}"
+                )
+
+            data = await response.json()
+            if "images" not in data or len(data["images"]) == 0:
+                raise Exception("No images returned from AUTOMATIC1111 API")
+
+            image_data = base64.b64decode(data["images"][0])
+            image_path = os.path.join(output_directory, f"{uuid.uuid4()}.png")
+            with open(image_path, "wb") as f:
+                f.write(image_data)
+
+            return image_path

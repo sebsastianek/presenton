@@ -99,3 +99,7 @@ def get_extended_reasoning_env():
 
 def get_web_grounding_env():
     return os.getenv("WEB_GROUNDING")
+
+
+def get_automatic1111_url_env():
+    return os.getenv("AUTOMATIC1111_URL", "http://127.0.0.1:7860")

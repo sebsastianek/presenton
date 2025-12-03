@@ -61,6 +61,15 @@ export const IMAGE_PROVIDERS: Record<string, ImageProviderOption> = {
     apiKeyField: "GOOGLE_API_KEY",
     apiKeyFieldLabel: "Google API Key"
   },
+  automatic1111: {
+    value: "automatic1111",
+    label: "AUTOMATIC1111",
+    description: "Stable Diffusion WebUI (local or remote)",
+    icon: "/icons/stable-diffusion.png",
+    requiresApiKey: true,
+    apiKeyField: "AUTOMATIC1111_URL",
+    apiKeyFieldLabel: "AUTOMATIC1111 URL"
+  },
 };
 
 export const LLM_PROVIDERS: Record<string, LLMProviderOption> = {

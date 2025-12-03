@@ -1,5 +1,6 @@
 from enums.image_provider import ImageProvider
 from utils.get_env import (
+    get_automatic1111_url_env,
     get_disable_image_generation_env,
     get_google_api_key_env,
     get_image_provider_env,
@@ -30,6 +31,10 @@ def is_dalle3_selected() -> bool:
     return ImageProvider.DALLE3 == get_selected_image_provider()
 
 
+def is_automatic1111_selected() -> bool:
+    return ImageProvider.AUTOMATIC1111 == get_selected_image_provider()
+
+
 def get_selected_image_provider() -> ImageProvider | None:
     """
     Get the selected image provider from environment variables.
@@ -42,7 +47,7 @@ def get_selected_image_provider() -> ImageProvider | None:
     return None
 
 
-def get_image_provider_api_key() -> str:
+def get_image_provider_api_key() -> str | None:
     selected_image_provider = get_selected_image_provider()
     if selected_image_provider == ImageProvider.PEXELS:
         return get_pexels_api_key_env()
@@ -52,5 +57,7 @@ def get_image_provider_api_key() -> str:
         return get_google_api_key_env()
     elif selected_image_provider == ImageProvider.DALLE3:
         return get_openai_api_key_env()
+    elif selected_image_provider == ImageProvider.AUTOMATIC1111:
+        return get_automatic1111_url_env()
     else:
         raise ValueError(f"Invalid image provider: {selected_image_provider}")
